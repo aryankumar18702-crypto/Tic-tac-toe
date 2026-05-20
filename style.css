@@ -32,6 +32,20 @@ h1 {
     margin-bottom: 15px;
 }
 
+.target-container {
+
+    margin-bottom: 15px;
+}
+
+select {
+
+    padding: 5px;
+
+    font-size: 16px;
+
+    margin-left: 10px;
+}
+
 .board {
 
     display: grid;
@@ -102,9 +116,19 @@ button:hover {
     margin-bottom: 10px;
 }
 
-#round {
+#rounds {
 
     margin-bottom: 10px;
 
     font-size: 18px;
+}
+
+#scoreboard {
+
+    margin-bottom: 15px;
+}
+
+#scoreboard p {
+
+    margin: 5px;
 }
