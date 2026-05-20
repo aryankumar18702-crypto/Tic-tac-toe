@@ -1,22 +1,31 @@
 const cells = document.querySelectorAll(".cell");
 
-const statusText = document.getElementById("status");
+const statusText =
+    document.getElementById("status");
 
-const restartBtn = document.getElementById("restartBtn");
+const restartBtn =
+    document.getElementById("restartBtn");
 
-const roundsText = document.getElementById("rounds");
+const roundsText =
+    document.getElementById("rounds");
 
-const xWinsText = document.getElementById("xWins");
+const xWinsText =
+    document.getElementById("xWins");
 
-const oWinsText = document.getElementById("oWins");
+const oWinsText =
+    document.getElementById("oWins");
 
-const drawsText = document.getElementById("draws");
+const drawsText =
+    document.getElementById("draws");
 
-const targetWinsSelect = document.getElementById("targetWins");
+const pvpBtn =
+    document.getElementById("pvpBtn");
 
-const pvpBtn = document.getElementById("pvpBtn");
+const aiBtn =
+    document.getElementById("aiBtn");
 
-const aiBtn = document.getElementById("aiBtn");
+const playerOName =
+    document.getElementById("playerOName");
 
 let currentPlayer = "X";
 
@@ -32,7 +41,11 @@ let oWins = 0;
 
 let draws = 0;
 
-let gameState = ["", "", "", "", "", "", "", "", ""];
+let gameState = [
+    "", "", "",
+    "", "", "",
+    "", "", ""
+];
 
 const winningConditions = [
 
@@ -52,6 +65,9 @@ pvpBtn.addEventListener("click", () => {
 
     gameMode = "pvp";
 
+    playerOName.textContent =
+        "Player O";
+
     restartMatch();
 });
 
@@ -59,21 +75,31 @@ aiBtn.addEventListener("click", () => {
 
     gameMode = "ai";
 
+    playerOName.textContent =
+        "Computer";
+
     restartMatch();
 });
 
 function handleCellClick() {
 
-    const index = this.getAttribute("data-index");
+    const index =
+        this.getAttribute("data-index");
 
-    if (gameState[index] !== "" || !gameActive) {
-
+    if (
+        gameState[index] !== "" ||
+        !gameActive
+    ) {
         return;
     }
 
     makeMove(index, currentPlayer);
 
-    if (gameMode === "ai" && gameActive && currentPlayer === "O") {
+    if (
+        gameMode === "ai" &&
+        gameActive &&
+        currentPlayer === "O"
+    ) {
 
         setTimeout(computerMove, 500);
     }
@@ -92,9 +118,14 @@ function checkWinner() {
 
     let roundWon = false;
 
-    for (let i = 0; i < winningConditions.length; i++) {
+    for (
+        let i = 0;
+        i < winningConditions.length;
+        i++
+    ) {
 
-        const [a, b, c] = winningConditions[i];
+        const [a, b, c] =
+            winningConditions[i];
 
         if (
             gameState[a] &&
@@ -112,46 +143,39 @@ function checkWinner() {
 
         gameActive = false;
 
-        if (currentPlayer === "X") {
-
-            xWins++;
-
-            xWinsText.textContent = xWins;
-
-        } else {
-
-            oWins++;
-
-            oWinsText.textContent = oWins;
-        }
-
         roundsCompleted++;
 
         roundsText.textContent =
             `Rounds Completed: ${roundsCompleted}`;
 
-        const targetWins = parseInt(targetWinsSelect.value);
+        if (currentPlayer === "X") {
 
-        if (xWins === targetWins) {
+            xWins++;
 
-            statusText.textContent =
-                "Player X Wins The Match!";
-
-            return;
-        }
-
-        if (oWins === targetWins) {
+            xWinsText.textContent =
+                xWins;
 
             statusText.textContent =
-                gameMode === "ai"
-                ? "Computer Wins The Match!"
-                : "Player O Wins The Match!";
+                "Player X Wins This Round!";
 
-            return;
+        } else {
+
+            oWins++;
+
+            oWinsText.textContent =
+                oWins;
+
+            if (gameMode === "ai") {
+
+                statusText.textContent =
+                    "Computer Wins This Round!";
+
+            } else {
+
+                statusText.textContent =
+                    "Player O Wins This Round!";
+            }
         }
-
-        statusText.textContent =
-            `Player ${currentPlayer} Wins Round!`;
 
         setTimeout(resetBoard, 1500);
 
@@ -160,35 +184,55 @@ function checkWinner() {
 
     if (!gameState.includes("")) {
 
+        gameActive = false;
+
         draws++;
 
-        drawsText.textContent = draws;
-
         roundsCompleted++;
+
+        drawsText.textContent =
+            draws;
 
         roundsText.textContent =
             `Rounds Completed: ${roundsCompleted}`;
 
-        statusText.textContent = "Round Draw!";
-
-        gameActive = false;
+        statusText.textContent =
+            "Round Draw!";
 
         setTimeout(resetBoard, 1500);
 
         return;
     }
 
-    currentPlayer = currentPlayer === "X" ? "O" : "X";
+    currentPlayer =
+        currentPlayer === "X"
+        ? "O"
+        : "X";
 
-    statusText.textContent =
-        `Player ${currentPlayer}'s Turn`;
+    if (
+        gameMode === "ai" &&
+        currentPlayer === "O"
+    ) {
+
+        statusText.textContent =
+            "Computer's Turn";
+
+    } else {
+
+        statusText.textContent =
+            `Player ${currentPlayer}'s Turn`;
+    }
 }
 
 function computerMove() {
 
     let emptyCells = [];
 
-    for (let i = 0; i < gameState.length; i++) {
+    for (
+        let i = 0;
+        i < gameState.length;
+        i++
+    ) {
 
         if (gameState[i] === "") {
 
@@ -202,20 +246,30 @@ function computerMove() {
     }
 
     const randomIndex =
-        emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        emptyCells[
+            Math.floor(
+                Math.random() *
+                emptyCells.length
+            )
+        ];
 
     makeMove(randomIndex, "O");
 }
 
 function resetBoard() {
 
-    gameState = ["", "", "", "", "", "", "", "", ""];
+    gameState = [
+        "", "", "",
+        "", "", "",
+        "", "", ""
+    ];
 
     currentPlayer = "X";
 
     gameActive = true;
 
-    statusText.textContent = "Player X's Turn";
+    statusText.textContent =
+        "Player X's Turn";
 
     cells.forEach(cell => {
 
@@ -247,7 +301,13 @@ function restartMatch() {
 
 cells.forEach(cell => {
 
-    cell.addEventListener("click", handleCellClick);
+    cell.addEventListener(
+        "click",
+        handleCellClick
+    );
 });
 
-restartBtn.addEventListener("click", restartMatch);
+restartBtn.addEventListener(
+    "click",
+    restartMatch
+);
