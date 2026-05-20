@@ -4,7 +4,15 @@ const statusText = document.getElementById("status");
 
 const restartBtn = document.getElementById("restartBtn");
 
-const roundText = document.getElementById("round");
+const roundsText = document.getElementById("rounds");
+
+const xWinsText = document.getElementById("xWins");
+
+const oWinsText = document.getElementById("oWins");
+
+const drawsText = document.getElementById("draws");
+
+const targetWinsSelect = document.getElementById("targetWins");
 
 const pvpBtn = document.getElementById("pvpBtn");
 
@@ -16,7 +24,13 @@ let gameActive = true;
 
 let gameMode = "pvp";
 
-let roundsPlayed = 0;
+let roundsCompleted = 0;
+
+let xWins = 0;
+
+let oWins = 0;
+
+let draws = 0;
 
 let gameState = ["", "", "", "", "", "", "", "", ""];
 
@@ -38,14 +52,14 @@ pvpBtn.addEventListener("click", () => {
 
     gameMode = "pvp";
 
-    restartGame();
+    restartMatch();
 });
 
 aiBtn.addEventListener("click", () => {
 
     gameMode = "ai";
 
-    restartGame();
+    restartMatch();
 });
 
 function handleCellClick() {
@@ -70,10 +84,6 @@ function makeMove(index, player) {
     gameState[index] = player;
 
     cells[index].textContent = player;
-
-    roundsPlayed++;
-
-    roundText.textContent = `Rounds Played: ${roundsPlayed}`;
 
     checkWinner();
 }
@@ -100,25 +110,78 @@ function checkWinner() {
 
     if (roundWon) {
 
-        statusText.textContent = `Player ${currentPlayer} Wins!`;
-
         gameActive = false;
+
+        if (currentPlayer === "X") {
+
+            xWins++;
+
+            xWinsText.textContent = xWins;
+
+        } else {
+
+            oWins++;
+
+            oWinsText.textContent = oWins;
+        }
+
+        roundsCompleted++;
+
+        roundsText.textContent =
+            `Rounds Completed: ${roundsCompleted}`;
+
+        const targetWins = parseInt(targetWinsSelect.value);
+
+        if (xWins === targetWins) {
+
+            statusText.textContent =
+                "Player X Wins The Match!";
+
+            return;
+        }
+
+        if (oWins === targetWins) {
+
+            statusText.textContent =
+                gameMode === "ai"
+                ? "Computer Wins The Match!"
+                : "Player O Wins The Match!";
+
+            return;
+        }
+
+        statusText.textContent =
+            `Player ${currentPlayer} Wins Round!`;
+
+        setTimeout(resetBoard, 1500);
 
         return;
     }
 
     if (!gameState.includes("")) {
 
-        statusText.textContent = "Game Draw!";
+        draws++;
+
+        drawsText.textContent = draws;
+
+        roundsCompleted++;
+
+        roundsText.textContent =
+            `Rounds Completed: ${roundsCompleted}`;
+
+        statusText.textContent = "Round Draw!";
 
         gameActive = false;
+
+        setTimeout(resetBoard, 1500);
 
         return;
     }
 
     currentPlayer = currentPlayer === "X" ? "O" : "X";
 
-    statusText.textContent = `Player ${currentPlayer}'s Turn`;
+    statusText.textContent =
+        `Player ${currentPlayer}'s Turn`;
 }
 
 function computerMove() {
@@ -144,19 +207,15 @@ function computerMove() {
     makeMove(randomIndex, "O");
 }
 
-function restartGame() {
+function resetBoard() {
+
+    gameState = ["", "", "", "", "", "", "", "", ""];
 
     currentPlayer = "X";
 
     gameActive = true;
 
-    roundsPlayed = 0;
-
-    gameState = ["", "", "", "", "", "", "", "", ""];
-
-    statusText.textContent = `Player X's Turn`;
-
-    roundText.textContent = `Rounds Played: 0`;
+    statusText.textContent = "Player X's Turn";
 
     cells.forEach(cell => {
 
@@ -164,9 +223,31 @@ function restartGame() {
     });
 }
 
+function restartMatch() {
+
+    xWins = 0;
+
+    oWins = 0;
+
+    draws = 0;
+
+    roundsCompleted = 0;
+
+    xWinsText.textContent = 0;
+
+    oWinsText.textContent = 0;
+
+    drawsText.textContent = 0;
+
+    roundsText.textContent =
+        "Rounds Completed: 0";
+
+    resetBoard();
+}
+
 cells.forEach(cell => {
 
     cell.addEventListener("click", handleCellClick);
 });
 
-restartBtn.addEventListener("click", restartGame);
+restartBtn.addEventListener("click", restartMatch);
