@@ -74,24 +74,24 @@ h1 {
 
     display: grid;
 
-    grid-template-columns: repeat(3, 180px);
+    grid-template-columns: repeat(3, 270px);
 
-    gap: 10px;
+    gap: 15px;
 
     margin: 20px auto;
 }
 
 .cell {
 
-    width: 180px;
+    width: 270px;
 
-    height: 180px;
+    height: 270px;
 
     background: #1e1e1e;
 
     border: 2px solid #00adb5;
 
-    font-size: 3.5rem;
+    font-size: 5.25rem;
 
     display: flex;
 
