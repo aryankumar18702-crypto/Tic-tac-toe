@@ -33,7 +33,7 @@ h1 {
 
     justify-content: center;
 
-    gap: 20px;
+    gap: 30px;
 
     margin-bottom: 20px;
 }
@@ -42,11 +42,11 @@ h1 {
 
     background: #1e1e1e;
 
-    padding: 15px;
+    padding: 25px;
 
     border-radius: 10px;
 
-    width: 100px;
+    width: 150px;
 
     border: 2px solid #00adb5;
 }
@@ -55,12 +55,12 @@ h1 {
 
     margin: 0;
 
-    font-size: 16px;
+    font-size: 18px;
 }
 
 .score-box p {
 
-    font-size: 28px;
+    font-size: 36px;
 
     margin-top: 10px;
 }
@@ -74,24 +74,24 @@ h1 {
 
     display: grid;
 
-    grid-template-columns: repeat(3, 100px);
+    grid-template-columns: repeat(3, 130px);
 
-    gap: 5px;
+    gap: 8px;
 
     margin: 20px auto;
 }
 
 .cell {
 
-    width: 100px;
+    width: 130px;
 
-    height: 100px;
+    height: 130px;
 
     background: #1e1e1e;
 
     border: 2px solid #00adb5;
 
-    font-size: 2rem;
+    font-size: 2.5rem;
 
     display: flex;
 
@@ -111,9 +111,9 @@ h1 {
 
 button {
 
-    padding: 10px 20px;
+    padding: 12px 24px;
 
-    margin: 5px;
+    margin: 8px;
 
     background: #00adb5;
 
@@ -125,7 +125,7 @@ button {
 
     border-radius: 5px;
 
-    font-size: 14px;
+    font-size: 16px;
 }
 
 button:hover {
@@ -135,7 +135,7 @@ button:hover {
 
 #status {
 
-    font-size: 20px;
+    font-size: 24px;
 
     margin-bottom: 10px;
 }
@@ -144,5 +144,5 @@ button:hover {
 
     margin-bottom: 10px;
 
-    font-size: 18px;
+    font-size: 20px;
 }
