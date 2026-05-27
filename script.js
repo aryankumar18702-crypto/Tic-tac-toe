@@ -224,36 +224,89 @@ function checkWinner() {
     }
 }
 
-function computerMove() {
+// Minimax algorithm for intelligent AI
+function minimax(board, depth, isMaximizing) {
+    
+    const score = evaluateBoard(board);
+    
+    if (score === 10) return score - depth;
+    if (score === -10) return score + depth;
+    
+    if (!board.includes("")) return 0;
+    
+    if (isMaximizing) {
+        let bestScore = -Infinity;
+        for (let i = 0; i < board.length; i++) {
+            if (board[i] === "") {
+                board[i] = "O";
+                const moveScore = minimax(board, depth + 1, false);
+                board[i] = "";
+                bestScore = Math.max(bestScore, moveScore);
+            }
+        }
+        return bestScore;
+    } else {
+        let bestScore = Infinity;
+        for (let i = 0; i < board.length; i++) {
+            if (board[i] === "") {
+                board[i] = "X";
+                const moveScore = minimax(board, depth + 1, true);
+                board[i] = "";
+                bestScore = Math.min(bestScore, moveScore);
+            }
+        }
+        return bestScore;
+    }
+}
 
-    let emptyCells = [];
-
-    for (
-        let i = 0;
-        i < gameState.length;
-        i++
-    ) {
-
-        if (gameState[i] === "") {
-
-            emptyCells.push(i);
+// Evaluate the board state
+function evaluateBoard(board) {
+    
+    for (let condition of winningConditions) {
+        const [a, b, c] = condition;
+        if (
+            board[a] === "O" &&
+            board[a] === board[b] &&
+            board[a] === board[c]
+        ) {
+            return 10;
         }
     }
-
-    if (emptyCells.length === 0) {
-
-        return;
+    
+    for (let condition of winningConditions) {
+        const [a, b, c] = condition;
+        if (
+            board[a] === "X" &&
+            board[a] === board[b] &&
+            board[a] === board[c]
+        ) {
+            return -10;
+        }
     }
+    
+    return 0;
+}
 
-    const randomIndex =
-        emptyCells[
-            Math.floor(
-                Math.random() *
-                emptyCells.length
-            )
-        ];
+// Find the best move using minimax
+function computerMove() {
 
-    makeMove(randomIndex, "O");
+    let bestScore = -Infinity;
+    let bestMove = 0;
+    
+    for (let i = 0; i < gameState.length; i++) {
+        if (gameState[i] === "") {
+            gameState[i] = "O";
+            const score = minimax(gameState, 0, false);
+            gameState[i] = "";
+            
+            if (score > bestScore) {
+                bestScore = score;
+                bestMove = i;
+            }
+        }
+    }
+    
+    makeMove(bestMove, "O");
 }
 
 function resetBoard() {
